@@ -6,46 +6,39 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Store
- *
- * @ORM\Table(name="store", uniqueConstraints={@ORM\UniqueConstraint(name="idx_unique_manager", columns={"manager_staff_id"})}, indexes={@ORM\Index(name="idx_fk_address_id", columns={"address_id"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'store')]
+#[ORM\Index(name: 'idx_fk_address_id', columns: ['address_id'])]
+#[ORM\UniqueConstraint(name: 'idx_unique_manager', columns: ['manager_staff_id'])]
+#[ORM\Entity]
 class Store
 {
     /**
      * @var bool
-     *
-     * @ORM\Column(name="store_id", type="boolean", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'store_id', type: 'boolean', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $storeId;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Staff
-     *
-     * @ORM\ManyToOne(targetEntity="Staff")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="manager_staff_id", referencedColumnName="staff_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'manager_staff_id', referencedColumnName: 'staff_id')]
+    #[ORM\ManyToOne(targetEntity: \Staff::class)]
     private $managerStaff;
 
     /**
      * @var \Address
-     *
-     * @ORM\ManyToOne(targetEntity="Address")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="address_id", referencedColumnName="address_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'address_id', referencedColumnName: 'address_id')]
+    #[ORM\ManyToOne(targetEntity: \Address::class)]
     private $address;
 
     public function getStoreId(): ?bool

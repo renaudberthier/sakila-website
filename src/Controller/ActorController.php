@@ -8,12 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/actor')]
-class ActorController extends AbstractController
+final class ActorController extends AbstractController
 {
-    #[Route('/', name: 'app_actor_index', methods: ['GET'])]
+    #[Route('/actor', name: 'app_actor_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $actors = $entityManager
@@ -25,7 +24,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_actor_new', methods: ['GET', 'POST'])]
+    #[Route('/actor/new', name: 'app_actor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $actor = new Actor();
@@ -45,7 +44,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{actorId}', name: 'app_actor_show', methods: ['GET'])]
+    #[Route('/actor/{id}', name: 'app_actor_show', methods: ['GET'])]
     public function show(Actor $actor): Response
     {
         return $this->render('actor/show.html.twig', [
@@ -53,7 +52,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{actorId}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
+    #[Route('/actor/{id}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Actor $actor, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ActorType::class, $actor);
@@ -71,7 +70,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{actorId}', name: 'app_actor_delete', methods: ['POST'])]
+    #[Route('/actor/{id}', name: 'app_actor_delete', methods: ['POST'])]
     public function delete(Request $request, Actor $actor, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$actor->getActorId(), $request->request->get('_token'))) {

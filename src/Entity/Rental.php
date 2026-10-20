@@ -6,70 +6,60 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Rental
- *
- * @ORM\Table(name="rental", uniqueConstraints={@ORM\UniqueConstraint(name="rental_date", columns={"rental_date", "inventory_id", "customer_id"})}, indexes={@ORM\Index(name="idx_fk_customer_id", columns={"customer_id"}), @ORM\Index(name="idx_fk_inventory_id", columns={"inventory_id"}), @ORM\Index(name="idx_fk_staff_id", columns={"staff_id"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'rental')]
+#[ORM\Index(name: 'idx_fk_customer_id', columns: ['customer_id'])]
+#[ORM\Index(name: 'idx_fk_inventory_id', columns: ['inventory_id'])]
+#[ORM\Index(name: 'idx_fk_staff_id', columns: ['staff_id'])]
+#[ORM\UniqueConstraint(name: 'rental_date', columns: ['rental_date', 'inventory_id', 'customer_id'])]
+#[ORM\Entity]
 class Rental
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="rental_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'rental_id', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $rentalId;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="rental_date", type="datetime", nullable=false)
      */
+    #[ORM\Column(name: 'rental_date', type: 'datetime', nullable: false)]
     private $rentalDate;
 
     /**
      * @var \DateTime|null
-     *
-     * @ORM\Column(name="return_date", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'return_date', type: 'datetime', nullable: true)]
     private $returnDate;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Staff
-     *
-     * @ORM\ManyToOne(targetEntity="Staff")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="staff_id", referencedColumnName="staff_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'staff_id', referencedColumnName: 'staff_id')]
+    #[ORM\ManyToOne(targetEntity: \Staff::class)]
     private $staff;
 
     /**
      * @var \Inventory
-     *
-     * @ORM\ManyToOne(targetEntity="Inventory")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="inventory_id", referencedColumnName="inventory_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'inventory_id', referencedColumnName: 'inventory_id')]
+    #[ORM\ManyToOne(targetEntity: \Inventory::class)]
     private $inventory;
 
     /**
      * @var \Customer
-     *
-     * @ORM\ManyToOne(targetEntity="Customer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'customer_id')]
+    #[ORM\ManyToOne(targetEntity: \Customer::class)]
     private $customer;
 
     public function getRentalId(): ?int

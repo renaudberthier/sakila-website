@@ -6,70 +6,59 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Payment
- *
- * @ORM\Table(name="payment", indexes={@ORM\Index(name="fk_payment_rental", columns={"rental_id"}), @ORM\Index(name="idx_fk_customer_id", columns={"customer_id"}), @ORM\Index(name="idx_fk_staff_id", columns={"staff_id"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'payment')]
+#[ORM\Index(name: 'fk_payment_rental', columns: ['rental_id'])]
+#[ORM\Index(name: 'idx_fk_customer_id', columns: ['customer_id'])]
+#[ORM\Index(name: 'idx_fk_staff_id', columns: ['staff_id'])]
+#[ORM\Entity]
 class Payment
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="payment_id", type="smallint", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'payment_id', type: 'smallint', nullable: false, options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $paymentId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="amount", type="decimal", precision=5, scale=2, nullable=false)
      */
+    #[ORM\Column(name: 'amount', type: 'decimal', precision: 5, scale: 2, nullable: false)]
     private $amount;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="payment_date", type="datetime", nullable=false)
      */
+    #[ORM\Column(name: 'payment_date', type: 'datetime', nullable: false)]
     private $paymentDate;
 
     /**
      * @var \DateTime|null
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Rental
-     *
-     * @ORM\ManyToOne(targetEntity="Rental")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="rental_id", referencedColumnName="rental_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'rental_id', referencedColumnName: 'rental_id')]
+    #[ORM\ManyToOne(targetEntity: \Rental::class)]
     private $rental;
 
     /**
      * @var \Customer
-     *
-     * @ORM\ManyToOne(targetEntity="Customer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'customer_id')]
+    #[ORM\ManyToOne(targetEntity: \Customer::class)]
     private $customer;
 
     /**
      * @var \Staff
-     *
-     * @ORM\ManyToOne(targetEntity="Staff")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="staff_id", referencedColumnName="staff_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'staff_id', referencedColumnName: 'staff_id')]
+    #[ORM\ManyToOne(targetEntity: \Staff::class)]
     private $staff;
 
     public function getPaymentId(): ?int

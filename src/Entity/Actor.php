@@ -8,55 +8,42 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Actor
- *
- * @ORM\Table(name="actor", indexes={@ORM\Index(name="idx_actor_last_name", columns={"last_name"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'actor')]
+#[ORM\Index(name: 'idx_actor_last_name', columns: ['last_name'])]
+#[ORM\Entity]
 class Actor
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="actor_id", type="smallint", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $actorId;
+    #[ORM\Column(name: 'actor_id', type: 'smallint', nullable: false, options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $actorId = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=45, nullable=false)
      */
+    #[ORM\Column(name: 'first_name', type: 'string', length: 45, nullable: false)]
     private $firstName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=45, nullable=false)
      */
+    #[ORM\Column(name: 'last_name', type: 'string', length: 45, nullable: false)]
     private $lastName;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Film", inversedBy="actor")
-     * @ORM\JoinTable(name="film_actor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="actor_id", referencedColumnName="actor_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="film_id", referencedColumnName="film_id")
-     *   }
-     * )
      */
+    #[ORM\JoinTable(name: 'film_actor')]
+    #[ORM\JoinColumn(name: 'actor_id', referencedColumnName: 'actor_id')]
+    #[ORM\InverseJoinColumn(name: 'film_id', referencedColumnName: 'film_id')]
+    #[ORM\ManyToMany(targetEntity: \Film::class, inversedBy: 'actor')]
     private $film;
 
     /**

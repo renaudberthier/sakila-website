@@ -6,95 +6,81 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Staff
- *
- * @ORM\Table(name="staff", indexes={@ORM\Index(name="idx_fk_address_id", columns={"address_id"}), @ORM\Index(name="idx_fk_store_id", columns={"store_id"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'staff')]
+#[ORM\Index(name: 'idx_fk_address_id', columns: ['address_id'])]
+#[ORM\Index(name: 'idx_fk_store_id', columns: ['store_id'])]
+#[ORM\Entity]
 class Staff
 {
     /**
      * @var bool
-     *
-     * @ORM\Column(name="staff_id", type="boolean", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'staff_id', type: 'boolean', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $staffId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=45, nullable=false)
      */
+    #[ORM\Column(name: 'first_name', type: 'string', length: 45, nullable: false)]
     private $firstName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=45, nullable=false)
      */
+    #[ORM\Column(name: 'last_name', type: 'string', length: 45, nullable: false)]
     private $lastName;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="picture", type="blob", length=65535, nullable=true)
      */
+    #[ORM\Column(name: 'picture', type: 'blob', length: 65535, nullable: true)]
     private $picture;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="email", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'email', type: 'string', length: 50, nullable: true)]
     private $email;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default"="1"})
      */
+    #[ORM\Column(name: 'active', type: 'boolean', nullable: false, options: ['default' => '1'])]
     private $active = true;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=16, nullable=false)
      */
+    #[ORM\Column(name: 'username', type: 'string', length: 16, nullable: false)]
     private $username;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="password", type="string", length=40, nullable=true)
      */
+    #[ORM\Column(name: 'password', type: 'string', length: 40, nullable: true)]
     private $password;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Store
-     *
-     * @ORM\ManyToOne(targetEntity="Store")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="store_id", referencedColumnName="store_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'store_id', referencedColumnName: 'store_id')]
+    #[ORM\ManyToOne(targetEntity: \Store::class)]
     private $store;
 
     /**
      * @var \Address
-     *
-     * @ORM\ManyToOne(targetEntity="Address")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="address_id", referencedColumnName="address_id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'address_id', referencedColumnName: 'address_id')]
+    #[ORM\ManyToOne(targetEntity: \Address::class)]
     private $address;
 
     public function getStaffId(): ?bool

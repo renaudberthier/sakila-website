@@ -5,134 +5,110 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\Rating;
 
 /**
  * Film
- *
- * @ORM\Table(name="film", indexes={@ORM\Index(name="idx_fk_language_id", columns={"language_id"}), @ORM\Index(name="idx_fk_original_language_id", columns={"original_language_id"}), @ORM\Index(name="idx_title", columns={"title"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'film')]
+#[ORM\Index(name: 'idx_fk_language_id', columns: ['language_id'])]
+#[ORM\Index(name: 'idx_fk_original_language_id', columns: ['original_language_id'])]
+#[ORM\Index(name: 'idx_title', columns: ['title'])]
+#[ORM\Entity]
 class Film
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="film_id", type="smallint", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'film_id', type: 'smallint', nullable: false, options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $filmId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=128, nullable=false)
      */
+    #[ORM\Column(name: 'title', type: 'string', length: 128, nullable: false)]
     private $title;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      */
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: true)]
     private $description;
 
     /**
      * @var \DateTime|null
-     *
-     * @ORM\Column(name="release_year", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'release_year', type: 'date', nullable: true)]
     private $releaseYear;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="rental_duration", type="boolean", nullable=false, options={"default"="3"})
      */
+    #[ORM\Column(name: 'rental_duration', type: 'boolean', nullable: false, options: ['default' => '3'])]
     private $rentalDuration = '3';
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="rental_rate", type="decimal", precision=4, scale=2, nullable=false, options={"default"="4.99"})
      */
+    #[ORM\Column(name: 'rental_rate', type: 'decimal', precision: 4, scale: 2, nullable: false, options: ['default' => '4.99'])]
     private $rentalRate = '4.99';
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="length", type="smallint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'length', type: 'smallint', nullable: true, options: ['unsigned' => true])]
     private $length;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="replacement_cost", type="decimal", precision=5, scale=2, nullable=false, options={"default"="19.99"})
      */
+    #[ORM\Column(name: 'replacement_cost', type: 'decimal', precision: 5, scale: 2, nullable: false, options: ['default' => '19.99'])]
     private $replacementCost = '19.99';
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="rating", type="string", length=0, nullable=true, options={"default"="G"})
-     */
-    private $rating = 'G';
+    #[ORM\Column(type: 'string', length: 5, nullable: false, enumType: Rating::class)]
+    private Rating $rating = Rating::G;
 
     /**
      * @var array|null
-     *
-     * @ORM\Column(name="special_features", type="simple_array", length=0, nullable=true)
      */
+    #[ORM\Column(name: 'special_features', type: 'simple_array', length: 0, nullable: true)]
     private $specialFeatures;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \Language
-     *
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="language_id", referencedColumnName="language_id")
-     * })
+     * @var Language
      */
+    #[ORM\JoinColumn(name: 'language_id', referencedColumnName: 'language_id')]
+    #[ORM\ManyToOne(targetEntity: Language::class)]
     private $language;
 
     /**
-     * @var \Language
-     *
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="original_language_id", referencedColumnName="language_id")
-     * })
+     * @var Language
      */
+    #[ORM\JoinColumn(name: 'original_language_id', referencedColumnName: 'language_id')]
+    #[ORM\ManyToOne(targetEntity: Language::class)]
     private $originalLanguage;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Actor", mappedBy="film")
      */
+    #[ORM\ManyToMany(targetEntity: \Actor::class, mappedBy: 'film')]
     private $actor;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="film")
-     * @ORM\JoinTable(name="film_category",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="film_id", referencedColumnName="film_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="category_id", referencedColumnName="category_id")
-     *   }
-     * )
      */
+    #[ORM\JoinTable(name: 'film_category')]
+    #[ORM\JoinColumn(name: 'film_id', referencedColumnName: 'film_id')]
+    #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'category_id')]
+    #[ORM\ManyToMany(targetEntity: \Category::class, inversedBy: 'film')]
     private $category;
 
     /**
@@ -233,12 +209,12 @@ class Film
         return $this;
     }
 
-    public function getRating(): ?string
+    public function getRating(): Rating
     {
         return $this->rating;
     }
 
-    public function setRating(?string $rating): self
+    public function setRating(Rating $rating): static
     {
         $this->rating = $rating;
 

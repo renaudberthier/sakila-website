@@ -8,40 +8,35 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Category
- *
- * @ORM\Table(name="category")
- * @ORM\Entity
  */
+#[ORM\Table(name: 'category')]
+#[ORM\Entity]
 class Category
 {
     /**
      * @var bool
-     *
-     * @ORM\Column(name="category_id", type="boolean", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Column(name: 'category_id', type: 'boolean', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $categoryId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=25, nullable=false)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 25, nullable: false)]
     private $name;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_update", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[ORM\Column(name: 'last_update', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Film", mappedBy="category")
      */
+    #[ORM\ManyToMany(targetEntity: \Film::class, mappedBy: 'category')]
     private $film;
 
     /**
